@@ -18,12 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/takkbbl/RecentReborn-n8n.git"
+    "url": "git+https://github.com/takkbbl/RecentReborn-n8n.git"
   },
   "bugs": {
     "url": "https://github.com/takkbbl/RecentReborn-n8n/issues"
   },
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "n8n-node dev",
     "build": "n8n-node build",
