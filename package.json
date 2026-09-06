@@ -1,0 +1,59 @@
+{
+  "name": "n8n-nodes-recentreborn",
+  "version": "0.1.0",
+  "description": "n8n community node for RecentReborn, chronological search for Instagram, TikTok, and YouTube. Search hashtags, queries, and locations, and trigger workflows the moment new posts appear.",
+  "keywords": [
+    "n8n-community-node-package",
+    "recentreborn",
+    "instagram",
+    "tiktok",
+    "youtube",
+    "hashtag search"
+  ],
+  "license": "MIT",
+  "homepage": "https://recentreborn.com",
+  "author": {
+    "name": "RecentReborn",
+    "email": "hello@recentreborn.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/takkbbl/RecentReborn-n8n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/takkbbl/RecentReborn-n8n/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "dev": "n8n-node dev",
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "prepublishOnly": "n8n-node prerelease",
+    "test": "vitest run"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/src/credentials/RecentRebornApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/src/nodes/RecentReborn/RecentReborn.node.js",
+      "dist/src/nodes/RecentRebornTrigger/RecentRebornTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "^0.47.1",
+    "typescript": "^5.9.2",
+    "vitest": "^3.0.0"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}
