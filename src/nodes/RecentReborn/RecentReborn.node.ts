@@ -186,6 +186,34 @@ export class RecentReborn implements INodeType {
 				],
 				displayOptions: { show: { operation: ['searchQuery'], platform: ['youtube'] } },
 			},
+			{
+				displayName: 'Type',
+				name: 'videoType',
+				type: 'options',
+				default: 'video',
+				description: 'YouTube only',
+				options: [
+					{ name: 'Video', value: 'video' },
+					{ name: 'Shorts', value: 'shorts' },
+				],
+				displayOptions: { show: { operation: ['searchQuery'], platform: ['youtube'] } },
+			},
+			{
+				displayName: 'Duration',
+				name: 'duration',
+				type: 'options',
+				default: '',
+				description: 'YouTube only, and only when Type is Video. Has no effect when Type is Shorts.',
+				options: [
+					{ name: 'Any', value: '' },
+					{ name: 'Short', value: 'short' },
+					{ name: 'Medium', value: 'medium' },
+					{ name: 'Long', value: 'long' },
+				],
+				displayOptions: {
+					show: { operation: ['searchQuery'], platform: ['youtube'], videoType: ['video'] },
+				},
+			},
 
 			// --- Look Up Locations ---
 			{
@@ -279,12 +307,19 @@ export class RecentReborn implements INodeType {
 					};
 				} else if (operation === 'searchQuery') {
 					const platform = this.getNodeParameter('platform', i) as string;
+					const videoType =
+						platform === 'youtube' ? (this.getNodeParameter('videoType', i) as string) : undefined;
 					path = '/search/query';
 					qs = {
 						q: this.getNodeParameter('q', i) as string,
 						platform,
 						upload_date:
 							platform === 'youtube' ? (this.getNodeParameter('uploadDate', i) as string) : undefined,
+						type: videoType,
+						duration:
+							platform === 'youtube' && videoType === 'video'
+								? (this.getNodeParameter('duration', i) as string)
+								: undefined,
 					};
 				} else if (operation === 'searchLocation') {
 					path = '/search/location';

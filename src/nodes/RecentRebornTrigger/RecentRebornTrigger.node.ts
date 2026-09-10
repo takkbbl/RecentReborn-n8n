@@ -110,8 +110,38 @@ export class RecentRebornTrigger implements INodeType {
 					{ name: 'Past Hour', value: 'hour' },
 					{ name: 'Today', value: 'today' },
 					{ name: 'Past Week', value: 'week' },
+					{ name: 'Past Month', value: 'month' },
+					{ name: 'Past Year', value: 'year' },
 				],
 				displayOptions: { show: { searchType: ['query'], platform: ['youtube'] } },
+			},
+			{
+				displayName: 'Type',
+				name: 'videoType',
+				type: 'options',
+				default: 'video',
+				description: 'YouTube only',
+				options: [
+					{ name: 'Video', value: 'video' },
+					{ name: 'Shorts', value: 'shorts' },
+				],
+				displayOptions: { show: { searchType: ['query'], platform: ['youtube'] } },
+			},
+			{
+				displayName: 'Duration',
+				name: 'duration',
+				type: 'options',
+				default: '',
+				description: 'YouTube only, and only when Type is Video. Has no effect when Type is Shorts.',
+				options: [
+					{ name: 'Any', value: '' },
+					{ name: 'Short', value: 'short' },
+					{ name: 'Medium', value: 'medium' },
+					{ name: 'Long', value: 'long' },
+				],
+				displayOptions: {
+					show: { searchType: ['query'], platform: ['youtube'], videoType: ['video'] },
+				},
 			},
 			{
 				displayName: 'Location ID',
@@ -143,6 +173,12 @@ export class RecentRebornTrigger implements INodeType {
 			qs.platform = platform;
 			if (platform === 'youtube') {
 				qs.upload_date = this.getNodeParameter('uploadDate') as string;
+				const videoType = this.getNodeParameter('videoType') as string;
+				qs.type = videoType;
+				if (videoType === 'video') {
+					const duration = this.getNodeParameter('duration') as string;
+					if (duration) qs.duration = duration;
+				}
 			}
 		} else {
 			path = '/search/location';
